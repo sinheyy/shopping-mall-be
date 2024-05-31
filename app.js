@@ -13,7 +13,7 @@ app.use(bodyParser.json());     // req.body가 객체로 인식이 됨
 app.use("/api", indexRouter);
 // /api/user가 들어오면 indexRouter로 가고 index.js에서 보면 /user는 userApi로 감
 
-const mongoURI = process.env.LOCAL_DB_ADDRESS;
+const mongoURI = process.env.SERVER_DB_ADDRESS;
 mongoose
     .connect(mongoURI)
     .then(() => console.log("mongoose connected"))
