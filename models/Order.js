@@ -4,7 +4,7 @@ const Product = require("./Product");
 const Schema = mongoose.Schema;
 const orderSchema = Schema({
     shipTo: { type: String, required: true },
-    status: { type: String, default: "배송준비중" },
+    status: { type: String, default: "상품준비중" },
     totalPrice: { type: Number, required: true, default: 0 },
     contact: { type: String, required: true },
     userId: { type: mongoose.ObjectId, ref: User },
