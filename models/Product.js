@@ -5,6 +5,7 @@ const productSchema = Schema({
     brand: { type: String, required: true },
     name: { type: String, required: true },
     image: { type: String, required: true },
+    option: { type: Array, required: true },
     category: { type: Array, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
@@ -12,7 +13,7 @@ const productSchema = Schema({
     stock: { type: Object, required: true },
     status: { type: String, default: "active" },
     choice: { type: Boolean, required: true },
-    new: { type: Boolean, required: true },
+    isNew: { type: Boolean, required: true },
     detail: { type: String, required: true },
     isDeleted: { type: Boolean, default: false },
 }, { timestamps: true });
