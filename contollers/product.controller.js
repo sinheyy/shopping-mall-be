@@ -1,6 +1,7 @@
 const Product = require("../models/Product");
 
-const productController = {}
+const PAGE_SIZE = 5;
+const productController = {};
 
 productController.createProduct = async (req, res) => {
     try {
@@ -17,16 +18,20 @@ productController.createProduct = async (req, res) => {
 productController.getProducts = async (req, res) => {
     try {
         const { page, name } = req.query;
-        // if (name) {
-        //     const products = await Product.find({ name: { $regex: name, $options: "i" } });     // regex는 포함하는 거 보여주기 ,option i는 영어 대소문자 신경 안 씀
-        // }
-        // else {
-        //     const products = await Product.find({});
-        // }
-        const cond = name ? { name: { $regex: name, $options: "i" }}:{};
+        const cond = name ? { name: { $regex: name, $options: "i" } } : {};
         let query = Product.find(cond);
+        let response = { status: "success" };       // 동적으로 response
+        if (page) {
+            query.skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE);   // skip하고 싶은 데이터 값을 스킵, limit은 document를 리턴할 최대 개수
+            // 최종 몇 개 페이지 - 데이터 총 개수 / PAGE_SIZE
+            const totaItemNum = await Product.find(cond).count();
+            const totalPageNum = Math.ceil(totaItemNum / PAGE_SIZE);
+
+            response.totalPageNum = totalPageNum;
+        }
         const productList = await query.exec();
-        res.status(200).json({ status: "success", data : productList });
+        response.data = productList;
+        res.status(200).json(response);
     } catch (error) {
         res.status(400).json({ status: "fail", message: error.message });
     }
