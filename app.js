@@ -2,11 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const http = require('http');
 const indexRouter = require("./routes/index");
 const app = express();
+const corsOption = {
+    origin: ['http://localhost:3000', 'https://hey-shop.netlify.app'],
+    credentials: true,
+};
+
 
 require("dotenv").config();
-app.use(cors());
+app.use(cors(corsOption));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());     // req.body가 객체로 인식이 됨
 
