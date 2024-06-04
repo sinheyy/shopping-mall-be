@@ -37,4 +37,23 @@ productController.getProducts = async (req, res) => {
     }
 }
 
+productController.updateProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;    // 수정하고싶은 id
+        const { sku, brand, name, option, image, category, description, price, salePrice, stock, status, choice, isNew, detail } = req.body;
+
+        const product = await Product.findByIdAndUpdate(
+            { _id: productId },
+            { sku, brand, name, option, image, category, description, price, salePrice, stock, status, choice, isNew, detail },
+            { new: true }
+        );
+
+        if (!product) throw new Error("상품이 존재하지 않습니다.");
+        res.status(200).json({ status: "success", data: product });
+
+    } catch (error) {
+        res.status(400).json({ status: "fail", message: error.message });
+    }
+}
+
 module.exports = productController;
