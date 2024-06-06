@@ -9,6 +9,7 @@ router.post(
     authController.checkAdminPermission,
     productController.createProduct
 );
+
 router.get("/", productController.getProducts);
 
 
@@ -25,5 +26,7 @@ router.delete(
     authController.checkAdminPermission,
     productController.deleteProduct
 );
+
+router.get("/:id", productController.getProductById);
 
 module.exports = router;
