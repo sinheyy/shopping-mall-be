@@ -15,7 +15,7 @@ cartController.addItemToCart = async (req, res) => {
             await cart.save();
         }
         // 이미 카트에 들어가 있는 아이템이냐? productId, option도 고려하기
-        const exsistItem = Cart.items.find(
+        const exsistItem = cart.items.find(
             (item) => item.productId.equals(productId) && item.option === option);
 
         // 그렇다면 에러("이미 카트에 담긴 상품입니다.")
