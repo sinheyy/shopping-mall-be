@@ -56,7 +56,7 @@ cartController.deleteCartItem = async (req, res) => {
         cart.items = cart.items.filter((item) => !item._id.equals(id));
         await cart.save();
 
-        res.status(200).json({ status: "success", cartItemQty: cart.items.length });
+        res.status(200).json({ status: "success", qty: cart.items.length });
     }
     catch (error) {
         res.status(400).json({ status: "fail", message: error.message });
@@ -91,7 +91,7 @@ cartController.editCartItem = async (req, res) => {
 cartController.getCartQty = async (req, res) => {
     try {
         const { userId } = req;
-        const cart = await Cart.findOne({ userId });
+        const cart = await Cart.findOne({ userId: userId });
         if (!cart) throw new Error("There is no cart");
         res.status(200).json({ status: "success", qty: cart.items.length });
     } catch (error) {
