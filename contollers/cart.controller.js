@@ -48,4 +48,19 @@ cartController.getCart = async (req, res) => {
     }
 }
 
+cartController.deleteCartItem = async (req, res) => {
+    try {
+        const { id } = req.params;   // 삭제하고 싶은 ID
+        const { userId } = req;
+        const cart = await Cart.findOne({ userId });
+        cart.items = cart.items.filter((item) => !item._id.equals(id));
+        await cart.save();
+
+        res.status(200).json({ status: "success", cartItemQty: cart.items.length });
+    }
+    catch (error) {
+        res.status(400).json({ status: "fail", message: error.message });
+    }
+}
+
 module.exports = cartController;
