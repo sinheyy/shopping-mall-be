@@ -1,8 +1,8 @@
-const orderController = {};
 const Order = require("../models/Order");
 const { randomStringGenerator } = require("../utils/randomStringGenerator");
 const productController = require("./product.controller");
 
+const orderController = {};
 
 orderController.createOrder = async (req, res) => {
     try {
@@ -10,6 +10,7 @@ orderController.createOrder = async (req, res) => {
         // data - userId, totalPrice, shipTo, contact, orderList
         const { userId } = req;
         const { shipTo, contact, totalPrice, orderList } = req.body;
+        console.log(orderList);
         // product의 stock 확인하기 - 재고 확인 & 업데이트
         const insufficientStockItems = await productController.checkItemListStock(orderList);
         if (insufficientStockItems.length > 0) {

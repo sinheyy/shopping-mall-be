@@ -85,7 +85,10 @@ productController.getProductById = async (req, res) => {
 // 상품 하나에 대한 재고 확인
 productController.checkStock = async (item) => {
     // 내가 사려는 제품 재고 정보 들고 오기
-    const product = Product.findById(item.productId);
+    const product = await Product.findById(item.productId);
+    // console.log("product read", product);
+    // console.log("stock read", product.stock);
+    // console.log("m read", product.stock["m"]);
     // 내가 사려는 제품 qty와 재고 비교
     if (product.stock[item.option] < item.qty) {
         // 재고 부족하면 불충분 메세지와 함께 데이터 반환
@@ -103,6 +106,7 @@ productController.checkStock = async (item) => {
 
 // 상품 재고 확인
 productController.checkItemListStock = async (itemList) => {
+    console.log("itemList", itemList);
     const insufficientStockItems = [];
 
     // 재고 확인 로직 - Promise.all 하게 되면 병렬로 실행하게 된다

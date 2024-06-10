@@ -3,10 +3,10 @@ const User = require("./User");
 const Product = require("./Product");
 const Schema = mongoose.Schema;
 const orderSchema = Schema({
-    shipTo: { type: String, required: true },
+    shipTo: { type: Object, required: true },
     status: { type: String, default: "상품준비중" },
     totalPrice: { type: Number, required: true, default: 0 },
-    contact: { type: String, required: true },
+    contact: { type: Object, required: true },
     userId: { type: mongoose.ObjectId, ref: User },
     orderNum: { type: String },
     items: [{
