@@ -34,6 +34,8 @@ orderController.createOrder = async (req, res) => {
             });
 
             await newOrder.save();
+            // save 후에 카트 비우기
+            
             res.status(200).json({ status: "success", orderNum: newOrder.orderNum });
         }
     } catch (error) {
