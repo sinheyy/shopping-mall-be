@@ -89,19 +89,26 @@ productController.checkStock = async (item) => {
     // console.log("product read", product);
     // console.log("stock read", product.stock);
     // console.log("m read", product.stock["m"]);
+
     // 내가 사려는 제품 qty와 재고 비교
     if (product.stock[item.option] < item.qty) {
         // 재고 부족하면 불충분 메세지와 함께 데이터 반환
         return { isVerify: false, message: `${product.name}의 "${item.option}" 재고가 부족합니다.` };
     }
     else {
-        // 재고 충분하면 재고에서 qty 빼고 성공 결과 반환
-        const newStock = { ...product.stock };
-        newStock[item.option] -= item.qty;
-        product.stock = newStock;
-        await product.save();
         return { isVerify: true };
     }
+}
+
+// 상품 하나에 대한 재고 수량 변경 - 주문 생성 성공한 경우에만 
+productController.updateStock = async (item) => {
+    // 내가 사려는 제품 재고 정보 들고 오기
+    const product = await Product.findById(item.productId);
+
+    const newStock = { ...product.stock };
+    newStock[item.option] -= item.qty;
+    product.stock = newStock;
+    await product.save();
 }
 
 // 상품 재고 확인

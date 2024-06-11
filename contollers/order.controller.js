@@ -19,6 +19,9 @@ orderController.createOrder = async (req, res) => {
             throw new Error(errorMessage);
         }
         else {
+            // 재고 수량 변경
+            orderList.map(async (item) => await productController.updateStock(item));
+
             // 재고가 다 충분함 -> 오더 만들기
             // 읽어온 걸 바탕으로 order 만들기
             const newOrder = new Order({
