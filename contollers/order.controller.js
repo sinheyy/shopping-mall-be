@@ -2,6 +2,7 @@ const Order = require("../models/Order");
 const { randomStringGenerator } = require("../utils/randomStringGenerator");
 const productController = require("./product.controller");
 
+const PAGE_SIZE = 5;
 const orderController = {};
 
 orderController.createOrder = async (req, res) => {
@@ -35,9 +36,29 @@ orderController.createOrder = async (req, res) => {
 
             await newOrder.save();
             // save 후에 카트 비우기
-            
+
             res.status(200).json({ status: "success", orderNum: newOrder.orderNum });
         }
+    } catch (error) {
+        res.status(400).json({ status: "fail", message: error.message });
+    }
+}
+
+orderController.getOrder = async (req, res) => {
+    try {
+        const { userId } = req;
+
+        // userId인 order 다 가져오기
+        const orderList = await Order.find({ userId: userId }).populate({
+            path: "items",
+            populate: {
+                path: "productId",
+                model: "Product",
+            },
+        });
+        const totalItemNum = await Order.find({ userId: userId }).count();
+        const totalPageNum = Math.ceil(totalItemNum / PAGE_SIZE);
+        res.status(200).json({ status: "success", data: orderList, totalPageNum });
     } catch (error) {
         res.status(400).json({ status: "fail", message: error.message });
     }
