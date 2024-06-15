@@ -7,6 +7,7 @@ const orderSchema = Schema({
     shipTo: { type: Object, required: true },
     status: { type: String, default: "상품준비중" },
     totalPrice: { type: Number, required: true, default: 0 },
+    discountPrice: { type: Number, required: true, default: 0 },
     contact: { type: Object, required: true },
     userId: { type: mongoose.ObjectId, ref: User },
     orderNum: { type: String },

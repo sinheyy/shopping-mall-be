@@ -5,7 +5,7 @@ const userController = {};
 
 userController.createUser = async (req, res) => {
     try {
-        let { email, password, name, level } = req.body;
+        let { email, password, name, point, level } = req.body;
         const user = await User.findOne({ email });
 
         if (user) {
@@ -15,7 +15,7 @@ userController.createUser = async (req, res) => {
         // password 암호화
         const salt = await bcrypt.genSaltSync(10);
         password = await bcrypt.hash(password, salt);
-        const newUser = new User({ email, password, name, level: level ? level : "customer" });
+        const newUser = new User({ email, password, name, point: point ? point : 0, level: level ? level : "customer" });
         await newUser.save();
         return res.status(200).json({ status: "success" });
     } catch (error) {

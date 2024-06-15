@@ -10,7 +10,7 @@ orderController.createOrder = async (req, res) => {
         // front에서 data 보낸 거 받아오기
         // data - userId, totalPrice, shipTo, contact, orderList
         const { userId } = req;
-        const { shipTo, contact, totalPrice, orderList } = req.body;
+        const { shipTo, contact, totalPrice, discountPrice, orderList } = req.body;
         console.log(orderList);
         // product의 stock 확인하기 - 재고 확인 & 업데이트
         const insufficientStockItems = await productController.checkItemListStock(orderList);
@@ -28,6 +28,7 @@ orderController.createOrder = async (req, res) => {
             const newOrder = new Order({
                 userId,
                 totalPrice,
+                discountPrice,
                 shipTo,
                 contact,
                 items: orderList,
